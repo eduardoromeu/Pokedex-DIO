@@ -46,6 +46,10 @@
     margin-bottom: 0;
 }
 
+.pokemon .name a {
+    text-transform: capitalize;
+}
+
 .pokemon .detail {
     display: flex;
     flex-direction: row;
