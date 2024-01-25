@@ -102,6 +102,12 @@
     margin: .5rem;
     padding: 1rem 1rem;
     border-radius: 1rem;
+    cursor: pointer;
+    transition: .5s all;
+}
+
+.pokemon:hover {
+    transform: scale(1.1);
 }
 
 .pokemon .number {

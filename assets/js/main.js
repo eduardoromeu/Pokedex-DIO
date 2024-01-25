@@ -27,7 +27,7 @@ function loadPokemonItems(offset, limit) {
     setTimeout(() => loadMoreButton.scrollIntoView({behavior: "smooth"}), 750); // Adiciona rolagem automática suave
 }
 
-loadPokemonItems(offset, 12)
+// loadPokemonItems(offset, 12)
 
 loadMoreButton.addEventListener('click', () => {
     offset += limit
@@ -41,4 +41,14 @@ loadMoreButton.addEventListener('click', () => {
     } else {
         loadPokemonItems(offset, limit)
     }
+});
+
+let pokemonCards = pokemonList.getElementsByClassName('pokemon');
+
+Array.from(pokemonCards).forEach((element, index) => {
+    element.addEventListener('click', () => {   
+        const card = pokemonCards[index];
+        const id = card.getElementsByClassName("number").innerHTML;
+        pokeApi.getPokemon(25).then((pokemon) => console.log(pokemon));
+    });
 });
