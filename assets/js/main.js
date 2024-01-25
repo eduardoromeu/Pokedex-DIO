@@ -27,7 +27,7 @@ function loadPokemonItems(offset, limit) {
     setTimeout(() => loadMoreButton.scrollIntoView({behavior: "smooth"}), 750); // Adiciona rolagem automática suave
 }
 
-// loadPokemonItems(offset, 12)
+loadPokemonItems(offset, 12);
 
 loadMoreButton.addEventListener('click', () => {
     offset += limit
@@ -43,12 +43,18 @@ loadMoreButton.addEventListener('click', () => {
     }
 });
 
-let pokemonCards = pokemonList.getElementsByClassName('pokemon');
+//Gambiarra
+setTimeout(addCardClickListener, 2000);
 
-Array.from(pokemonCards).forEach((element, index) => {
-    element.addEventListener('click', () => {   
-        const card = pokemonCards[index];
-        const id = card.getElementsByClassName("number").innerHTML;
-        pokeApi.getPokemon(25).then((pokemon) => console.log(pokemon));
+function addCardClickListener(){
+    let pokemonCards = pokemonList.getElementsByClassName('pokemon');
+    
+    Array.from(pokemonCards).forEach((element, index) => {
+        element.addEventListener('click', () => {   
+            const card = pokemonCards[index];
+            const id = parseInt(card.getElementsByClassName("number")[0].innerHTML);
+            
+            pokeApi.getPokemon(id).then((pokemon) => console.log(pokemon));
+        });
     });
-});
+}
