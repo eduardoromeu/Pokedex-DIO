@@ -1,5 +1,7 @@
 const pokeApi = {};
 
+pokeApi.pokemonList = [];
+
 function convertPokeApiDetailToPokemon(pokeDetail){
     const pokemon = new Pokemon();
     pokemon.number = pokeDetail.id
@@ -12,6 +14,7 @@ function convertPokeApiDetailToPokemon(pokeDetail){
     pokemon.types = types;
     pokemon.type = type1;
 
+    pokeApi.pokemonList.push(pokemon);
     return pokemon;
 }
 
