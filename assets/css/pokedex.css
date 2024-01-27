@@ -261,3 +261,11 @@
     padding: .5rem;
     list-style: none;
 }
+
+#closeModalBtn {
+    border: none;
+    cursor: pointer;
+    padding: .5rem;
+    font-size: .85rem;
+    border-radius: 1rem;
+}

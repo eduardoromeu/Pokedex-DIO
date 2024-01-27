@@ -27,7 +27,7 @@ function loadPokemonItems(offset, limit) {
     setTimeout(() => loadMoreButton.scrollIntoView({behavior: "smooth"}), 750); // Adiciona rolagem automática suave
 }
 
-// loadPokemonItems(offset, 12);
+loadPokemonItems(offset, 12);
 
 loadMoreButton.addEventListener('click', () => {
     offset += limit
