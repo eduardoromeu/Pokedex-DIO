@@ -12,6 +12,14 @@ function convertPokeApiDetailToPokemon(pokeDetail){
     pokemon.types = types;
     pokemon.type = type1;
 
+    pokemon.moves = pokeDetail.moves.map((moveSet) => moveSet.move.name);
+    pokemon.stats = pokeDetail.stats.map((statSet) => {
+        const stat = {};
+        stat.name = statSet.stat.name;
+        stat.base_stat = statSet.base_stat;
+        return stat;
+    })
+
     return pokemon;
 }
 

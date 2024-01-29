@@ -176,6 +176,10 @@
     border-radius: 1rem;
 }
 
+body:has(#pokemonModal[visible="true"]){
+    overflow-y: hidden;
+}
+
 #pokemonModalContainer:has(#pokemonModal[visible="false"]) {
     /* display: none; */
     visibility: hidden;
@@ -256,6 +260,8 @@
     display: grid;
     grid-template-columns: 5% 90% 5%;
     flex-grow: 1;
+    max-height: 100%;
+    padding: .5rem 0;
 }
 
 .detailsNavButton {
@@ -276,10 +282,55 @@
     transform: scale(1.5);
 }
 
-#pokemonDetailList {
+.pokemonDetailList {
+    height: 100%;
     padding: .5rem;
-    list-style: none;
+    /* display: grid;
+    grid-template-rows: 20% 80%; */
+    display: flex;
+    flex-direction: column;
 }
+
+#statsList {
+    list-style: none;
+    text-transform: uppercase;
+    padding: 0;
+    display: grid;
+    row-gap: 1rem;
+}
+
+.moves {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 1.5rem;
+    display: flex;
+    max-height: 100%;
+    flex-shrink: 1;
+}
+
+.moves > summary {
+    cursor: pointer;
+}
+
+#movesList {
+    max-height: 400px;
+    overflow-y: scroll;
+    display: grid;
+}
+
+
+@media screen and (min-width: 486px){
+    #movesList, #statsList {
+        grid-template-columns: 50% 50%;
+    }
+}
+
+@media screen and (min-width: 768px){
+    #movesList, #statsList {
+        grid-template-columns: 33% 33% 33%;
+    }
+}
+
 
 #closeModalBtn {
     border: none;

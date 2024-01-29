@@ -6,7 +6,8 @@ const closeModalBtn = document.getElementById("closeModalBtn");
 const modalTitle = document.getElementById("pokemonName");
 const modalNumber = document.getElementById("pokemonNumber");
 const modalTypes = document.getElementById("pokemonTypes");
-const modalDetailList = document.getElementById("pokemonDetailList");
+const statsList = document.getElementById("statsList");
+const movesList = document.getElementById("movesList");
 const modalPrevBtn = document.getElementById("prevPokemonBtn");
 const modalNextBtn = document.getElementById("nextPokemonBtn");
 
@@ -39,21 +40,17 @@ function loadPokemonItems(offset, limit) {
         </li>
         `).join('');
 
-        pokemonList.innerHTML += newHtml;
-
-        // Corrigir modal não abrindo após carregar mais items
-        pokemons.forEach((pokemon) => {
-            const pokeCard = document.getElementById(`${pokemon.name}-card`);
-            
-            pokeCard.addEventListener('click', () => {   
-                ShowModal(pokemon);
-            })
-        })
-
+        // This way the eventListeners are not removed
+        pokemonList.insertAdjacentHTML("beforeend", newHtml);
+        
         loadedPokemons.push(...pokemons);
-    });
+        pokemons.forEach(AddListener);
 
-    
+        function AddListener(pokemon){
+            const pokeCard = document.getElementById(`${pokemon.name}-card`);
+            pokeCard.addEventListener('click', () => ShowModal(pokemon));
+        }
+    });
     
     setTimeout(() => loadMoreButton.scrollIntoView({behavior: "smooth"}), 750); // Adiciona rolagem automática suave
 }
@@ -78,8 +75,14 @@ function ShowModal(pokemon){
     modalTitle.innerText = pokemon.name;
     modalNumber.innerText = pokemon.number;
 
-    let typesHtml = pokemon.types.map((type) => `<li class="type ${type}">${type}</li>`).join('');
+    const typesHtml = pokemon.types.map((type) => `<li class="type ${type}">${type}</li>`).join('');
     modalTypes.innerHTML = typesHtml;
+
+    const movesHtml = pokemon.moves.map((move) => `<li>${move}</li>`).join('');
+    movesList.innerHTML = movesHtml;
+
+    const statsHtml = pokemon.stats.map((stat) => `<li><strong>${stat.name}</strong>: ${stat.base_stat}</li>`).join('');
+    statsList.innerHTML = statsHtml;
 
     const pokeIndex = loadedPokemons.indexOf(pokemon);
 
@@ -98,11 +101,12 @@ function ShowModal(pokemon){
             ShowModal(loadedPokemons[pokeIndex + 1])
         }, {once: true});
     } else {
-        if(offset + limit >= maxRecords) modalNextBtn.disabled = true;
-        modalNextBtn.addEventListener('click', (e) => {LoadMoreItems(); CloseModal(e, true);}, {once: true});
+        modalNextBtn.disabled = true;
     }
 
+    console.log(pokemon);
 }
+
 
 function CloseModal(e, force = false){
     if(e.target.id == pokemonModalContainer.id || e.target.id == closeModalBtn.id || force)
