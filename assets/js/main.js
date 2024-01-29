@@ -1,15 +1,32 @@
 const pokemonList = document.getElementById("pokemonList");
 const loadMoreButton = document.getElementById("loadMoreButton");
+const pokemonModalContainer = document.getElementById("pokemonModalContainer");
+const pokemonModal = document.getElementById("pokemonModal");
+const closeModalBtn = document.getElementById("closeModalBtn");
 
 const maxRecords = 151;
 const limit = 8;
 let offset = 0;
 
+loadPokemonItems(offset, 12);
+
+loadMoreButton.addEventListener('click', LoadMoreItems);
+
+closeModalBtn.addEventListener('click', CloseModal);
+
+pokemonModalContainer.addEventListener('click', CloseModal);
+
+// pokemonModalContainer.addEventListener('click', (e) => {
+//     if(pokemonModal.getAttribute("visible") == "true" && e.target.id == "pokemonModalContainer"){
+//         CloseModal();  
+//     } 
+// });
+
 function loadPokemonItems(offset, limit) {
 
     pokeApi.getPokemons(offset, limit).then((pokemons = []) => {
         const newHtml = pokemons.map((pokemon) => `
-        <li class="pokemon ${pokemon.type}">
+        <li class="pokemon ${pokemon.type}" id="${pokemon.name}-card">
             <span class="number">${pokemon.number}</span>
             <span class="name"><a href="#">${pokemon.name}</a></span>
             <div class="detail">
@@ -22,14 +39,21 @@ function loadPokemonItems(offset, limit) {
         `).join('');
 
         pokemonList.innerHTML += newHtml;
+        
+        pokemons.forEach((pokemon) => {
+            const pokeCard = document.getElementById(`${pokemon.name}-card`);
+            
+            pokeCard.addEventListener('click', () => {   
+                ShowModal(pokemon);
+            })
+        })
     });
-    
+
     setTimeout(() => loadMoreButton.scrollIntoView({behavior: "smooth"}), 750); // Adiciona rolagem automática suave
+
 }
 
-loadPokemonItems(offset, 12);
-
-loadMoreButton.addEventListener('click', () => {
+function LoadMoreItems(){
     offset += limit
 
     qtdRecordNextPage = offset + limit;
@@ -41,20 +65,15 @@ loadMoreButton.addEventListener('click', () => {
     } else {
         loadPokemonItems(offset, limit)
     }
-});
+}
 
-//Gambiarra
-setTimeout(addCardClickListener, 2000);
+function ShowModal(pokemon){
+    pokemonModal.setAttribute("visible", "true");
+}
 
-function addCardClickListener(){
-    let pokemonCards = pokemonList.getElementsByClassName('pokemon');
-    
-    Array.from(pokemonCards).forEach((element, index) => {
-        element.addEventListener('click', () => {   
-            const card = pokemonCards[index];
-            const id = parseInt(card.getElementsByClassName("number")[0].innerHTML);
-            
-            pokeApi.getPokemon(id).then((pokemon) => console.log(pokemon));
-        });
-    });
+function CloseModal(e){
+    if(e.target.id == pokemonModalContainer.id || e.target.id == closeModalBtn.id)
+    {
+        pokemonModal.setAttribute("visible", "false");
+    }
 }

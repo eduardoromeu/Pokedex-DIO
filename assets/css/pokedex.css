@@ -176,6 +176,24 @@
     border-radius: 1rem;
 }
 
+#pokemonModalContainer:has(#pokemonModal[visible="false"]) {
+    /* display: none; */
+    visibility: hidden;
+}
+
+#pokemonModalContainer:has(#pokemonModal[visible="true"]) {
+    visibility: visible;
+    background-color: rgba(0, 0, 0, .25);
+}
+
+#pokemonModalContainer #pokemonModal[visible="false"] {
+    transform: scaleY(0);
+}
+
+#pokemonModalContainer #pokemonModal[visible="true"] {
+    transform: scaleY(1);
+}
+
 #pokemonModalContainer {
     position: fixed;
     display: flex;
@@ -183,8 +201,6 @@
     height: 100vh;
     top: 0;
     z-index: 1;
-    
-    /* display: none; */
 }
 
 #pokemonModal {
@@ -194,6 +210,7 @@
     padding: 2rem;
     flex-grow: 1;
     background-color: #f6f8fc;
+    transition: .25s all;
 }
 
 @media screen and (min-width: 768px) {
@@ -245,6 +262,7 @@
     align-items: center;
     justify-content: space-around;
 }
+
 .detailsNavButton button {
     width: 100%;
     background-color: transparent;
