@@ -10,11 +10,12 @@ const modalDetailList = document.getElementById("pokemonDetailList");
 const modalPrevBtn = document.getElementById("prevPokemonBtn");
 const modalNextBtn = document.getElementById("nextPokemonBtn");
 
+const loadedPokemons = [];
 const maxRecords = 151;
-const limit = 8;
+const limit = 12;
 let offset = 0;
 
-loadPokemonItems(offset, 12);
+loadPokemonItems(offset, limit);
 
 loadMoreButton.addEventListener('click', LoadMoreItems);
 
@@ -39,7 +40,8 @@ function loadPokemonItems(offset, limit) {
         `).join('');
 
         pokemonList.innerHTML += newHtml;
-        
+
+        // Corrigir modal não abrindo após carregar mais items
         pokemons.forEach((pokemon) => {
             const pokeCard = document.getElementById(`${pokemon.name}-card`);
             
@@ -47,10 +49,13 @@ function loadPokemonItems(offset, limit) {
                 ShowModal(pokemon);
             })
         })
+
+        loadedPokemons.push(...pokemons);
     });
 
+    
+    
     setTimeout(() => loadMoreButton.scrollIntoView({behavior: "smooth"}), 750); // Adiciona rolagem automática suave
-
 }
 
 function LoadMoreItems(){
@@ -76,17 +81,31 @@ function ShowModal(pokemon){
     let typesHtml = pokemon.types.map((type) => `<li class="type ${type}">${type}</li>`).join('');
     modalTypes.innerHTML = typesHtml;
 
-    modalPrevBtn.addEventListener('click', () => {
+    const pokeIndex = loadedPokemons.indexOf(pokemon);
 
-    });
+    if(pokeIndex > 0){
+        modalPrevBtn.disabled = false;
+        modalPrevBtn.addEventListener('click', () => {
+            ShowModal(loadedPokemons[pokeIndex - 1])
+        }, {once: true});
+    } else {
+        modalPrevBtn.disabled = true;
+    }
 
-    modalNextBtn.addEventListener('click', () => {
-        
-    });
+    if(pokeIndex < loadedPokemons.length - 1){
+        modalNextBtn.disabled = false;
+        modalNextBtn.addEventListener('click', () => {
+            ShowModal(loadedPokemons[pokeIndex + 1])
+        }, {once: true});
+    } else {
+        if(offset + limit >= maxRecords) modalNextBtn.disabled = true;
+        modalNextBtn.addEventListener('click', (e) => {LoadMoreItems(); CloseModal(e, true);}, {once: true});
+    }
+
 }
 
-function CloseModal(e){
-    if(e.target.id == pokemonModalContainer.id || e.target.id == closeModalBtn.id)
+function CloseModal(e, force = false){
+    if(e.target.id == pokemonModalContainer.id || e.target.id == closeModalBtn.id || force)
     {
         pokemonModal.setAttribute("visible", "false");
     }

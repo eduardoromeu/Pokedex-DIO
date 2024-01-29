@@ -1,7 +1,5 @@
 const pokeApi = {};
 
-pokeApi.pokemonList = [];
-
 function convertPokeApiDetailToPokemon(pokeDetail){
     const pokemon = new Pokemon();
     pokemon.number = pokeDetail.id
@@ -14,17 +12,16 @@ function convertPokeApiDetailToPokemon(pokeDetail){
     pokemon.types = types;
     pokemon.type = type1;
 
-    pokeApi.pokemonList.push(pokemon);
     return pokemon;
 }
 
-pokeApi.getPokemonDetail = (pokemon) => {
+pokeApi.getPokemonDetail = async(pokemon) => {
     return fetch(pokemon.url)
         .then((response) => response.json())
         .then(convertPokeApiDetailToPokemon)
 }
 
-pokeApi.getPokemons = (offset = 0, limit = 12) => {
+pokeApi.getPokemons = async(offset = 0, limit = 12) => {
     const url = `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`;
 
     return fetch(url)
@@ -35,7 +32,7 @@ pokeApi.getPokemons = (offset = 0, limit = 12) => {
         .then((pokemonDetails) => pokemonDetails)
 }
 
-pokeApi.getPokemon = (id) => {
+pokeApi.getPokemon = async(id) => {
     const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
     return fetch(url)
             .then((response) => response.json())
