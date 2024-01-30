@@ -211,7 +211,7 @@ body:has(#pokemonModal[visible="true"]){
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 2rem 1rem;
+    padding: 1rem 2rem 2rem 2rem;
     flex-grow: 1;
     background-color: #f6f8fc;
     transition: .25s all;
@@ -339,4 +339,5 @@ body:has(#pokemonModal[visible="true"]){
     padding: .5rem;
     font-size: .85rem;
     border-radius: 1rem;
+    margin-bottom: 1rem;
 }
