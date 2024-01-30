@@ -7,7 +7,7 @@ const modalTitle = document.getElementById("pokemonName");
 const modalNumber = document.getElementById("pokemonNumber");
 const modalTypes = document.getElementById("pokemonTypes");
 const statsList = document.getElementById("statsList");
-const movesList = document.getElementById("movesList");
+const modalSprite = document.getElementById("spriteContainer");
 const modalPrevBtn = document.getElementById("prevPokemonBtn");
 const modalNextBtn = document.getElementById("nextPokemonBtn");
 
@@ -78,11 +78,11 @@ function ShowModal(pokemon){
     const typesHtml = pokemon.types.map((type) => `<li class="type ${type}">${type}</li>`).join('');
     modalTypes.innerHTML = typesHtml;
 
-    const movesHtml = pokemon.moves.map((move) => `<li>${move}</li>`).join('');
-    movesList.innerHTML = movesHtml;
-
     const statsHtml = pokemon.stats.map((stat) => `<li><strong>${stat.name}</strong>: ${stat.base_stat}</li>`).join('');
     statsList.innerHTML = statsHtml;
+
+    const imgHtml = `<img src="${pokemon.photo}" alt="${pokemon.name}" />`;
+    modalSprite.innerHTML = imgHtml;
 
     const pokeIndex = loadedPokemons.indexOf(pokemon);
 
@@ -106,7 +106,6 @@ function ShowModal(pokemon){
 
     console.log(pokemon);
 }
-
 
 function CloseModal(e, force = false){
     if(e.target.id == pokemonModalContainer.id || e.target.id == closeModalBtn.id || force)

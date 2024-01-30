@@ -211,7 +211,7 @@ body:has(#pokemonModal[visible="true"]){
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 2rem;
+    padding: 2rem 1rem;
     flex-grow: 1;
     background-color: #f6f8fc;
     transition: .25s all;
@@ -224,6 +224,7 @@ body:has(#pokemonModal[visible="true"]){
     }
 
     #pokemonModal {
+        padding: 2rem;
         max-width: 768px;
         height: 90vh;
         box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -257,6 +258,7 @@ body:has(#pokemonModal[visible="true"]){
 }
 
 #pokemonDetails {
+    flex-grow: 1;
     display: grid;
     grid-template-columns: 5% 90% 5%;
     padding: .5rem 0;
@@ -274,6 +276,7 @@ body:has(#pokemonModal[visible="true"]){
     background-color: transparent;
     border: none;
     cursor: pointer;
+    padding: 0;
     transition: .25s all;
 }
 
@@ -281,8 +284,12 @@ body:has(#pokemonModal[visible="true"]){
     transform: scale(1.5);
 }
 
+
 .detailsContainer {
     padding: .5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 #statsList {
@@ -293,27 +300,19 @@ body:has(#pokemonModal[visible="true"]){
     row-gap: 1rem;
 }
 
-.movesContainer {
+#statsList li {
+    text-align: center;
+}
+
+#spriteContainer {
     display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    list-style-type: none;
-    background-color: white;
-    padding: 1rem;
-    border-radius: 1.5rem;
-    overflow-y: scroll;
-    max-height: 50%;
+    justify-content: center;
 }
 
-.movesContainer > h4 {
-    text-align: center;
-}
-
-#movesList {
-    display: grid;
-    padding: .5rem;
-    text-align: center;
-    list-style: none;
+#spriteContainer > img {
+    width: 100%;
+    max-height: 200px;
+    max-width: 200px;
 }
 
 
@@ -324,6 +323,10 @@ body:has(#pokemonModal[visible="true"]){
 }
 
 @media screen and (min-width: 768px){
+    #spriteContainer > img {
+        height: 200px;
+    }
+
     #movesList, #statsList {
         grid-template-columns: 33% 33% 33%;
     }
